@@ -24,8 +24,12 @@ function menu() {
         case '2':
             let nome = prompt("Nome: ")
             let email = prompt("Email: ")
-            let telefone = prompt("Telefone: ")
-            adicionarUsuarios({nome, email, telefone})
+            let telefones = []
+            let telefone
+            while ((telefone = prompt('Digite um telefone ou deixe branco para sair. '))) {
+                telefones.push(telefone)
+            }
+            adicionarUsuarios({nome: nome, email: email, telefone: telefones})
             console.log('Adicionado com sucesso!')
             menu()
             break;
@@ -37,7 +41,10 @@ function menu() {
                 let pergunta = parseInt(prompt("Digite o ID do usuário a editar: "))
                     let novoNome = prompt("Novo nome: ")
                     let novoEmail = prompt("Novo email: ")
-                    let novoTelefone = prompt("Novo Telefone: ")
+                    let novoTelefones = []
+                    while ((novoTelefone = prompt("Digite um novo telefone ou deixe branco pra sair."))) {
+                        novoTelefones.push(novoTelefone)
+                    }
                     editarUsuarios(pergunta, {nome: novoNome, email: novoEmail, telefone: novoTelefone})
                     console.log('Usuário editado com sucesso.')
                     menu()
@@ -50,8 +57,13 @@ function menu() {
             } else {
                 listarUsuarios()
                 pergunta = parseInt(prompt("Digite o ID do usuário a ser deletado: "))
-                deletarUsuarios(pergunta)
-                console.log('Usuário deletado com sucesso.')
+                let confirmacao = prompt('Tem certeza? ')
+
+                if(deletarUsuarios(pergunta, confirmacao)) {
+                    console.log('Usuário removido com sucesso.')
+                } else {
+                    console.log('Operação cancelada')
+                }
                 menu()
             }
             break;
